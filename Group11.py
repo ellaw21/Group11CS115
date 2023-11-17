@@ -156,13 +156,14 @@ def save_quit(name, preferences):
     if they did not input "$" after their name
     Author:Lewis"""
     f=open("musicrecplus.txt","w")
-    for item in preferences:
-        newstr = str(preferences[item]).replace("[",":")
-        newerstr = newstr.replace("]","")
-        newererstr = newerstr.replace(", ",",")
-        newerererstr = newererstr.replace("'","")
-        print(item+newerererstr)
-        f.write(item+newerererstr+"\n")
+    if name[len(name)-1] != "$":
+        for item in preferences:
+            newstr = str(preferences[item]).replace("[",":")
+            newerstr = newstr.replace("]","")
+            newererstr = newerstr.replace(", ",",")
+            newerererstr = newererstr.replace("'","")
+            print(item+newerererstr)
+            f.write(item+newerererstr+"\n")
     f.close()
     quit()
 

@@ -32,8 +32,6 @@ def preferences():
 
 
 
-
-
 def numMatches(u1, u2):
     """returns the number of matches of two artists in lists
     Author: Ella"""
@@ -80,6 +78,19 @@ def recommendations():
 def popularArtists():
     """Does not take an input. Returns the most popular artists
     Author:Keeyan"""
+    allArtists = []
+    for user_prefs in users.values():
+        allArtists.extend(user_prefs)
+
+    if not allArtists:
+        print("No preferences available. Add preferences first.")
+        return
+
+    artist_counts = {}
+    for artist in allArtists:
+        artist_counts[artist] = artist_counts.get(artist, 0) + 1
+
+    most_popular_artist = max(artist_counts, key=artist_counts.get)
 
 
 def howPopular(name, preferences):
@@ -105,7 +116,13 @@ def howPopular(name, preferences):
 def mostLikes():
     """Does not take an input. Returns the user with the most
     amount of liked artists
-    Author:Keeyan"""
+    Author:Keyaan"""
+    if not users:
+        print("No users available. Add preferences first.")
+        return
+    max_likes_user = max(users, key=lambda user: len(users[user]))
+    print(f"The user with the most likes is: {max_likes_user}")
+
     #Iterate through users dictionary and find the list with the most amount of artists and returns it
 
 
@@ -128,17 +145,29 @@ def menu(name, preferences):
         if user_input == 'm':
             pass
         if user_input == 'q':
-            save_quit(preferences)
+            save_quit(name, preferences)
             break
         if user_input not in['e', 'r', 'p', 'h', 'm', 'q']:
             user_input=input("Enter a letter to choose an option:\n e - Enter preferences\n r - Get recommendations\n p - Show most popular artists\n h - How popular is the most popular\n m - Which user has the most likes\n q - Save and quit\n")
 
-def save():
+
+def save_quit(name, preferences):
     """Does not take an input. Saves the users preferences
     if they did not input "$" after their name
     Author:Lewis"""
+    f=open("musicrecplus.txt","w")
+    for item in preferences:
+        newstr = str(preferences[item]).replace("[",":")
+        newerstr = newstr.replace("]","")
+        newererstr = newerstr.replace(", ",",")
+        newerererstr = newererstr.replace("'","")
+        print(item+newerererstr)
+        f.write(item+newerererstr+"\n")
+    f.close()
+    quit()
 
 
 
 #call options to begin running the music code
 menu(userID,users[userID])
+

@@ -6,17 +6,7 @@
 #Dictionary that contains userID as key and stores the list of user preferences
 users = {}
 
-def welcome():
-    """Takes no inputs. Gives greeting and prompts user to enter their name
-    Author:Ella"""
-    userID = input("Enter your name (put a $ symbol after your name if you wish your preferences to remain private):")
-    return userID
-
-
-#current user name
-userID = welcome()
-
-def preferences():
+def preferences(userID):
     if userID not in users.keys():
         users[userID] = []
         
@@ -29,6 +19,18 @@ def preferences():
             i = 0
         else:
             users[userID].append(artist)
+
+def welcome():
+    """Takes no inputs. Gives greeting and prompts user to enter their name
+    Author:Ella"""
+    userID = input("Enter your name (put a $ symbol after your name if you wish your preferences to remain private):")
+    if userID not in users:
+        preferences(userID)
+    return userID
+
+
+#current user name
+name = welcome()
 
 
 
@@ -67,7 +69,7 @@ def bestUserMatch(prefs, allPrefs):
         if count == 0:
             print("No recommendations available at this time.")
 
-def recommendations():
+def recommendations(userID):
     """Returns user recommendations
     Author:Ella"""
     allPreferences = []
@@ -136,15 +138,15 @@ def menu(name, preferences):
     user_input=input("Enter a letter to choose an option:\n e - Enter preferences\n r - Get recommendations\n p - Show most popular artists\n h - How popular is the most popular\n m - Which user has the most likes\n q - Save and quit\n")
     while True:
         if user_input == 'e':
-            get_preferences(name,preferences)
+            preferences(name)
         if user_input == 'r':
-            pass
+            recommendations(name)
         if user_input == 'p':
-            pass
+            popularArtist()
         if user_input == 'h':
-            pass
+            howPopular()
         if user_input == 'm':
-            pass
+            mostLikes()
         if user_input == 'q':
             save_quit(name, preferences)
             break
@@ -166,8 +168,6 @@ def save_quit(name, preferences):
     f.close()
     quit()
 
-
-
 #call options to begin running the music code
-menu(userID,users[userID])
+menu(name,users[name])
 

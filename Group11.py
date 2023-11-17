@@ -72,7 +72,8 @@ def recommendations():
     Author:Ella"""
     allPreferences = []
     for i in users:
-        allPreferences.append(users[i])
+        if i[len(i)-1] != "$":
+            allPreferences.append(users[i])
     bestUserMatch(users[userID], allPreferences)
 
 def popularArtists():
@@ -153,17 +154,15 @@ def menu(name, preferences):
 
 def save_quit(name, preferences):
     """Does not take an input. Saves the users preferences
-    if they did not input "$" after their name
     Author:Lewis"""
     f=open("musicrecplus.txt","w")
-    if name[len(name)-1] != "$":
-        for item in preferences:
-            newstr = str(preferences[item]).replace("[",":")
-            newerstr = newstr.replace("]","")
-            newererstr = newerstr.replace(", ",",")
-            newerererstr = newererstr.replace("'","")
-            print(item+newerererstr)
-            f.write(item+newerererstr+"\n")
+    for item in preferences:
+        newstr = str(preferences[item]).replace("[",":")
+        newerstr = newstr.replace("]","")
+        newererstr = newerstr.replace(", ",",")
+        newerererstr = newererstr.replace("'","")
+        print(item+newerererstr)
+        f.write(item+newerererstr+"\n")
     f.close()
     quit()
 
